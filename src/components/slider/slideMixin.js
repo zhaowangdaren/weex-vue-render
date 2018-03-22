@@ -226,9 +226,7 @@ export default {
       }
 
       if (newIndex !== this._preIndex) {
-        this.$emit('change', weex.utils.createEvent(this.$el, 'change', {
-          index: newIndex
-        }))
+        this._emitChangeEvent('change', {index: newIndex})
       }
     },
 
@@ -611,6 +609,13 @@ export default {
     },
 
     _emitScrollEvent (type, data = {}) {
+      const el = this.$el
+      if (el) {
+        weex.utils.dispatchNativeEvent(el, type, data)
+      }
+    },
+
+    _emitChangeEvent (type, data = {}) {
       const el = this.$el
       if (el) {
         weex.utils.dispatchNativeEvent(el, type, data)
